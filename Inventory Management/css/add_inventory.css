@@ -1,0 +1,107 @@
+body {
+    background: url('../images/home.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+.edit {
+    background-color: #ffffff;
+    padding: 10px 5px; /* Further reduced vertical padding */
+    border-radius: 10px;
+    width: auto;
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Reduced shadow spread */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+
+.edit h2 {
+    color: #333;
+    text-align: center;
+    background-color: #EEEEDD;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+input[type="text"], input[type="number"], button {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+button {
+    width: 50%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #F209DD;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+
+button:hover {
+    background-color: #45a049;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+
+.form-group {
+    margin-bottom: 30px; /* Adjust this value to control spacing between form fields */
+}
+
+input[type="text"], input[type="number"], input[type="date"], button {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: block; /* Ensure inputs are block-level elements */
+}
+
+.user-profile {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 20px;
+    color: white;
+  }
+.user-profile img {
+    width: 50px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
+    border-radius: 50%; /* This will make the image round */
+    display: block; /* This will make the image a block element */
+    margin-bottom: 5px; 
+  }
+
+.user-profile h3 {
+    margin: -3px; 
+    font-size: x-large;
+    text-align: center;
+    color:aliceblue;
+
+  }
+
+
+.back-button img {
+    width: 50px;
+    height: 50px;
+}
+
+@media (max-width: 600px) {
+    .edit {
+        width: 95%;
+    }
+}

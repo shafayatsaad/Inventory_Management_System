@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+body {
+    background: url('../images/home.jpg') no-repeat center center fixed;
+    background-size: cover;
+    background-color: #f0f0f0;
+    padding: 20px;
+
+/* Purchase Order Form */
+.form-container {
+    width: 40%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 8px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.form-container h2 {
+    text-align: center;
+    color: #333;
+}
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    flex: 0 0 20%;
+    margin-right: 10px;
+    text-align: right;
+    color: #333;
+}
+
+.form-group input {
+    flex: 1;
+    padding: 6px;
+    border-radius: 40px;
+    border: 1px solid #ddd;
+}
+
+.remove-button, .add-button {
+    background-color: #F209DD;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 8px 18px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 20px 2px;
+    cursor: pointer;
+    scroll-margin-right: 30px;
+    transition: all 0.2s ease;
+}
+
+.remove-button:hover, .add-button:hover {
+    background-color: #11E5F0;
+}
+
+/* Purchase Order List */
+.purchase-list {
+    width: 90%;
+    margin: 20px auto;
+}
+
+.purchase-list h2 {
+    text-align: center;
+    color: #f0f0f0;
+}
+
+.purchase-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.purchase-list th, .purchase-list td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.purchase-list th {
+    background-color: #F209DD;
+    color: white;
+}
+
+
+/* Purchase Order List */
+.purchase-list {
+  width: 80%;
+  margin: 20px auto;
+}
+
+.purchase-list h2 {
+  text-align: center;
+  color: #f0f0f0;
+}
+
+.purchase-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.purchase-list th, .purchase-list td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.purchase-list th {
+  background-color: #F209DD;
+  color: white;
+}
+
+.font-color {
+    color: #f0f0f0;
+    font-weight: bolder;
+}
+.purchase-list tbody {
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.user-profile {
+    position: absolute;
+    top: -40px;
+    right: -20px;
+    padding: 10px;
+    color: black;
+
+  }
+}
+

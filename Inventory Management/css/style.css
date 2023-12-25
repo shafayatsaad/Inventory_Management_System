@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+body {
+    background: url('../images/home.jpg') no-repeat center center fixed;
+    background-size: cover;
+    background-color: #f0f0f0;
+}
+
+#h2{
+    background: linear-gradient(to left,purple,rgba(255, 179, 0, 0.702));
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+table{
+    background: linear-gradient(to left,rgb(184, 36, 184),rgba(238, 190, 78, 0.702));
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+.card-header{
+    background: linear-gradient(to right,rgb(229, 168, 229),rgba(255, 234, 185, 0.702));
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+.card-body{
+    background: linear-gradient(to right,rgb(245, 200, 245),rgba(255, 233, 181, 0.883));
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+.box{
+    background: linear-gradient(to right,rgb(245, 200, 245),rgba(255, 233, 181, 0.883));
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+
+.user-profile {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 15px;
+    color: black;
+  }
+  .user-profile img {
+    width: 50px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
+    border-radius: 50%; /* This will make the image round */
+    display: block; /* This will make the image a block element */
+    margin-bottom: 8px; 
+  }
+  
+  .user-profile h2 {
+    margin: -5px; 
+    color: #fff;
+    font-size: x-large;
+    text-align: center;
+  }
+
+  .header .navbar{
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    margin-top: 30px;
+    background-color: #ddd(0, 0, 0, 0.5); /* Adjust as needed */
+    font-family: 'Poppins';
+  }

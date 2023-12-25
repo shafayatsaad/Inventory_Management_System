@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+body {
+    background: url('../images/home.jpg') no-repeat center center fixed;
+    background-size: cover;
+    background-color: #f0f0f0;
+}
+
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #f2f2f2;
+}
+
+.edit{
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: fixed; /* Position the button fixed to the viewport */
+    top: 20px;
+    left: 20px;
+
+    cursor: pointer;
+    position: relative;
+    max-width: 450px;
+    width: 80%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin: auto; /* Center the form */
+}
+

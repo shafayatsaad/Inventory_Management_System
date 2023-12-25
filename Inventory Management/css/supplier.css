@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+body {
+    margin: 0;
+    padding: 0;
+    background: url('../images/home.jpg') no-repeat center center fixed;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: white;
+}
+.back-button img {
+    width: 50px;
+    height: 50px;
+}
+
+.container {
+    width: 60%;
+    margin: auto;
+    overflow: hidden;
+}
+
+header {
+    background: linear-gradient(to right, purple, black);
+    padding: 1em 0;
+    text-align: center;
+}
+
+form {
+    background: linear-gradient(to right, purple, black);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+form input,
+form select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+form button.add-btn {
+    background-color: white;
+    color: purple;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+#supplier-list {
+    margin-top: 20px;
+    background: linear-gradient(to right, purple, black);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid white;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+button {
+    background-color: purple;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#searchInput {
+    width: 50%;
+    padding: 10px;
+    margin-top: 10px;
+}
