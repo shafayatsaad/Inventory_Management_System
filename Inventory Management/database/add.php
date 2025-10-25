@@ -27,13 +27,22 @@ if (isset($_POST['table_name'])) {
         exit;
     }
 
+    // Define allowed columns for each table
+    $allowed_columns = [
+        'users' => ['username', 'password', 'email', 'role'],
+        'product' => ['product_name', 'description', 'price', 'quantity'],
+        'manage' => ['user_id', 'product_id', 'quantity'],
+        'supplier' => ['supplier_name', 'contact_person', 'phone', 'email'],
+        'bill' => ['customer_name', 'product_id', 'quantity', 'total_price']
+    ];
+
     $data = [];
     // Prepare data for insertion, excluding 'table_name' itself
     // And also excluding any submit button names if they are POSTed
     $excluded_keys = ['table_name', 'submit']; // Add other keys to exclude if necessary
 
     foreach ($_POST as $key => $value) {
-        if (!in_array($key, $excluded_keys)) {
+        if (!in_array($key, $excluded_keys) && in_array($key, $allowed_columns[$table_name])) {
             // Basic sanitization: strip tags. For more robust security, consider per-column validation.
             // htmlspecialchars is more for output, strip_tags for input here is a basic measure.
             $data[$key] = strip_tags($value);
