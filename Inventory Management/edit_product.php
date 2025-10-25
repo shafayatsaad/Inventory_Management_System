@@ -1,12 +1,7 @@
 <?php
 session_start();
-// This is edit.php file
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "inventory";
-
-$connection = new mysqli($servername, $username, $password, $database);
+require_once __DIR__ . '/database/connection.php';
+require_once __DIR__ . '/database/error_logger.php';
 
 $product_name = "";
 $product_ID = "";
@@ -15,42 +10,39 @@ $mfg_date = "";
 $exp_date = "";
 $catagory = "";
 
-$errorMessage = "";
-$successMessage = "";
-
-
 if (!isset($_SESSION['first_name'])) {
+    header('location: login.php');
     exit();
 }
 
 $first_name = $_SESSION['first_name'];
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if (!isset($_GET["product_ID"])) {
-        header("location: index.php");
-        exit;
+        redirect_with_error('index_product.php', 'Product ID not specified.');
     }
     $product_ID = $_GET["product_ID"];
-    $sql = "SELECT * FROM product WHERE product_ID=$product_ID";
-    $result = $connection->query($sql);
-    $row = $result->fetch_assoc();
 
-    if (!$row) {
-        header("location: index.php");
-        exit;
+    try {
+        $stmt = $conn->prepare("SELECT * FROM product WHERE product_ID = :product_ID");
+        $stmt->bindParam(':product_ID', $product_ID, PDO::PARAM_INT);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            redirect_with_error('index_product.php', 'Product not found.');
+        }
+
+        $product_name = $row["product_name"];
+        $price = $row["price"];
+        $mfg_date = $row["mfg_date"];
+        $exp_date = $row["exp_date"];
+        $catagory = $row["catagory"];
+    } catch (PDOException $e) {
+        log_error("Error fetching product data: " . $e->getMessage(), "edit_product.php");
+        $errorMessage = "Error fetching product data.";
     }
-
-$first_name = $_SESSION['first_name']; 
-
-    $product_name = $row["product_name"];
-    //$product_ID = $row["product_ID"];
-    $price = $row["price"];
-    $mfg_date = $row["mfg_date"];
-    $exp_date = $row["exp_date"];
-    $catagory = $row["catagory"];
 } else {
-    //$id = $id["id"];
     $product_name = $_POST["product_name"];
     $product_ID = $_POST["product_ID"];
     $price = $_POST["price"];
@@ -58,27 +50,27 @@ $first_name = $_SESSION['first_name'];
     $exp_date = $_POST["exp_date"];
     $catagory = $_POST["catagory"];
 
-    do {
-        if (empty($product_name) || empty($product_ID) || empty($price) || empty($mfg_date) || empty($exp_date) || empty($catagory)) {
-            $errorMessage = "All the fields are required";
-            break;
+    if (empty($product_name) || empty($product_ID) || empty($price) || empty($mfg_date) || empty($exp_date) || empty($catagory)) {
+        $errorMessage = "All the fields are required";
+    } else {
+        try {
+            $stmt = $conn->prepare("UPDATE product SET product_name=:product_name, price=:price, mfg_date=:mfg_date, exp_date=:exp_date, catagory=:catagory WHERE product_ID=:product_ID");
+            $stmt->bindParam(':product_name', $product_name);
+            $stmt->bindParam(':price', $price);
+            $stmt->bindParam(':mfg_date', $mfg_date);
+            $stmt->bindParam(':exp_date', $exp_date);
+            $stmt->bindParam(':catagory', $catagory);
+            $stmt->bindParam(':product_ID', $product_ID, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $_SESSION['success_message'] = "Product updated correctly";
+            header("location: index_product.php");
+            exit;
+        } catch (PDOException $e) {
+            log_error("Error updating product: " . $e->getMessage(), "edit_product.php");
+            $errorMessage = "Error updating product.";
         }
-
-        $stmt = $connection->prepare("UPDATE product SET product_name=?, price=?, mfg_date=?, exp_date=?, catagory=? WHERE product_ID=?");
-        $stmt->bind_param("sssssi", $product_name, $price, $mfg_date, $exp_date, $catagory, $product_ID);
-
-        $stmt->execute();
-
-        if ($stmt->error) {
-            $errorMessage = "Invalid query: " . $stmt->error;
-            break;
-        }
-
-        $successMessage = "Product updated correctly";
-
-        header("location: index.php");
-        exit;
-    } while (true);
+    }
 }
 ?>
 
@@ -125,11 +117,11 @@ $first_name = $_SESSION['first_name'];
           height: 50px; /* Adjust as needed */
           border-radius: 50%; /* This will make the image round */
           display: block; /* This will make the image a block element */
-          margin-bottom: 5px; 
+          margin-bottom: 5px;
         }
 
         .user-profile h2 {
-          margin: 5px; 
+          margin: 5px;
           color:aliceblue;
         }
         .back-button img {
@@ -144,18 +136,19 @@ $first_name = $_SESSION['first_name'];
 <body>
     <div class="user-profile">
         <img src="/images/user.png" alt="User Image">
-        <h4 class="h4"><?= $first_name ?></h4>
+        <h4 class="h4"><?= htmlspecialchars($first_name) ?></h4>
     </div>
     <a href="index_product.php" class="back-button">
         <img src="/images/replay.png" alt="Back Button">
     </a>
     <div class="my-5">
         <h2>Edit Product</h2>
+        <?php display_session_feedback(); ?>
         <?php
         if ( !empty($errorMessage) ) {
             echo "
             <div class='alert alert-warning alert-dismissible fade show' role='alert'>
-                <strong>$errorMessage</strong>
+                <strong>" . htmlspecialchars($errorMessage) . "</strong>
                 <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
             </div>
             ";
@@ -163,52 +156,38 @@ $first_name = $_SESSION['first_name'];
         ?>
 
         <form method="post">
-            <input type="hidden" name="product_ID" value="<?php echo $product_ID; ?>">
+            <input type="hidden" name="product_ID" value="<?php echo htmlspecialchars($product_ID); ?>">
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Product Name</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="product_name" value="<?php echo $product_name; ?>">
+                    <input type="text" class="form-control" name="product_name" value="<?php echo htmlspecialchars($product_name); ?>">
                 </div>
             </div>
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Price</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="price" value="<?php echo $price; ?>">
+                    <input type="text" class="form-control" name="price" value="<?php echo htmlspecialchars($price); ?>">
                 </div>
             </div>
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Mfg Date</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="mfg_date" value="<?php echo $mfg_date; ?>">
+                    <input type="text" class="form-control" name="mfg_date" value="<?php echo htmlspecialchars($mfg_date); ?>">
                 </div>
             </div>
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Exp Date</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="exp_date" value="<?php echo $exp_date; ?>">
+                    <input type="text" class="form-control" name="exp_date" value="<?php echo htmlspecialchars($exp_date); ?>">
                 </div>
             </div>
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Category</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="catagory" value="<?php echo $catagory; ?>">
+                    <input type="text" class="form-control" name="catagory" value="<?php echo htmlspecialchars($catagory); ?>">
                 </div>
             </div>
 
-            <?php
-            if ( !empty($successMessage) ) {
-                echo "
-                <div class='row mb-3'>
-                    <div class='offset-sm-3 col-sm-6'>
-                        <div class='alert alert-success alert-dismissible fade show' role='alert'>
-                            <strong>$successMessage</strong>
-                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                        </div>
-                    </div>
-                </div>
-                ";
-            }
-            ?>
             <div class="row mb-3">
                 <div class="offset-sm-3 col-sm-3 d-grid">
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -229,6 +208,6 @@ $first_name = $_SESSION['first_name'];
             </div>
         </form>
     </div>
-    
+
 </body>
 </html>
