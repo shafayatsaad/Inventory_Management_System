@@ -1,28 +1,24 @@
 <?php
-// This is delete.php file
+session_start();
+require_once __DIR__ . '/connection.php';
+require_once __DIR__ . '/error_logger.php';
+
 if (isset($_GET["product_ID"])) {
     $product_ID = $_GET["product_ID"];
 
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "inventory";
-
-    $connection = new mysqli($servername, $username, $password, $database);
-
-    if ($connection->connect_error) {
-        die("Connection failed: " . $connection->connect_error);
+    try {
+        $stmt = $conn->prepare("DELETE FROM product WHERE product_ID = :product_ID");
+        $stmt->bindParam(':product_ID', $product_ID, PDO::PARAM_INT);
+        $stmt->execute();
+        $_SESSION['success_message'] = "Product deleted successfully.";
+    } catch (PDOException $e) {
+        log_error("Error deleting product: " . $e->getMessage(), "delete_product.php");
+        $_SESSION['error_message'] = "Failed to delete product. Please try again.";
     }
-
-    $stmt = $connection->prepare("DELETE FROM product WHERE product_ID = ?");
-    $stmt->bind_param("i", $product_ID);
-
-    $stmt->execute();
-
-    $stmt->close();
-    $connection->close();
+} else {
+    $_SESSION['error_message'] = "Product ID not specified.";
 }
 
-header("location: index.php");
+header("location: ../index_product.php");
 exit;
 ?>

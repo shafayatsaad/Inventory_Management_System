@@ -7,8 +7,7 @@ if (!function_exists('log_error')) {
         if (!empty($errorContext)) {
             $logMessage .= " [Context: {$errorContext}]";
         }
-        $logMessage .= " Error: {$errorMessage}
-";
+        $logMessage .= " Error: {$errorMessage}\n";
 
         // Append to the log file
         file_put_contents($logFile, $logMessage, FILE_APPEND);
@@ -17,12 +16,28 @@ if (!function_exists('log_error')) {
 
 if (!function_exists('display_user_error')) {
     function display_user_error($customMessage = "An unexpected error occurred. Please try again later.") {
-        // You can make this more sophisticated, e.g., set a session variable
-        // and redirect to an error page, or echo directly.
-        // For simplicity, this example echoes a generic message.
-        // Ensure this is called before any significant HTML output if you plan to echo directly,
-        // or use it in a way that doesn't break page rendering.
         echo "<p style='color: red; border: 1px solid red; padding: 10px;'>" . htmlspecialchars($customMessage) . "</p>";
+    }
+}
+
+if (!function_exists('redirect_with_error')) {
+    function redirect_with_error($location, $message) {
+        $_SESSION['error_message'] = $message;
+        header("Location: $location");
+        exit;
+    }
+}
+
+if (!function_exists('display_session_feedback')) {
+    function display_session_feedback() {
+        if (isset($_SESSION['error_message'])) {
+            echo "<div class='alert alert-danger'>" . htmlspecialchars($_SESSION['error_message']) . "</div>";
+            unset($_SESSION['error_message']);
+        }
+        if (isset($_SESSION['success_message'])) {
+            echo "<div class='alert alert-success'>" . htmlspecialchars($_SESSION['success_message']) . "</div>";
+            unset($_SESSION['success_message']);
+        }
     }
 }
 ?>
